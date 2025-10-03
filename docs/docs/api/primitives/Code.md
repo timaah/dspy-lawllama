@@ -1,22 +1,18 @@
-# dspy.Tool
+# dspy.Code
 
 <!-- START_API_REF -->
-::: dspy.Tool
+::: dspy.Code
     handler: python
     options:
         members:
-            - __call__
-            - acall
             - description
             - extract_custom_type_from_annotation
             - format
-            - format_as_litellm_function_call
-            - from_langchain
-            - from_mcp_tool
             - is_streamable
             - parse_lm_response
             - parse_stream_chunk
             - serialize_model
+            - validate_input
         show_source: true
         show_root_heading: true
         heading_level: 2
