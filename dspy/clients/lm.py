@@ -13,7 +13,7 @@ import dspy
 from dspy.clients.cache import request_cache
 from dspy.clients.openai import OpenAIProvider
 from dspy.clients.provider import Provider, ReinforceJob, TrainingJob
-from dspy.clients.utils_finetune import MultiGPUConfig, TrainDataFormat
+from dspy.clients.utils_finetune import TrainDataFormat
 from dspy.dsp.utils.settings import settings
 from dspy.utils.callback import BaseCallback
 
@@ -31,8 +31,8 @@ class LM(BaseLM):
         self,
         model: str,
         model_type: Literal["chat", "text", "responses"] = "chat",
-        temperature: float = 0.0,
-        max_tokens: int = 4000,
+        temperature: float | None = None,
+        max_tokens: int | None = None,
         cache: bool = True,
         callbacks: list[BaseCallback] | None = None,
         num_retries: int = 3,
@@ -88,9 +88,10 @@ class LM(BaseLM):
         model_pattern = re.match(r"^(?:o[1345]|gpt-5)(?:-(?:mini|nano))?", model_family)
 
         if model_pattern:
-            if max_tokens < 16000 or temperature != 1.0:
+
+            if (temperature and temperature != 1.0) or (max_tokens and max_tokens < 16000):
                 raise ValueError(
-                    "OpenAI's reasoning models require passing temperature=1.0 and max_tokens >= 16000 to "
+                    "OpenAI's reasoning models require passing temperature=1.0 or None and max_tokens >= 16000 or None to "
                     "`dspy.LM(...)`, e.g., dspy.LM('openai/gpt-5', temperature=1.0, max_tokens=16000)"
                 )
             self.kwargs = dict(temperature=temperature, max_completion_tokens=max_tokens, **kwargs)
@@ -228,7 +229,7 @@ class LM(BaseLM):
         return job
 
     def reinforce(
-        self, train_kwargs, gpu_config: MultiGPUConfig = MultiGPUConfig(num_inference_gpus=1, num_training_gpus=1)
+        self, train_kwargs
     ) -> ReinforceJob:
         # TODO(GRPO Team): Should we return an initialized job here?
         from dspy import settings as settings
@@ -236,7 +237,7 @@ class LM(BaseLM):
         err = f"Provider {self.provider} does not implement the reinforcement learning interface."
         assert self.provider.reinforceable, err
 
-        job = self.provider.ReinforceJob(lm=self, train_kwargs=train_kwargs, gpu_config=gpu_config)
+        job = self.provider.ReinforceJob(lm=self, train_kwargs=train_kwargs)
         job.initialize()
         return job
 
@@ -272,7 +273,9 @@ class LM(BaseLM):
             "launch_kwargs",
             "train_kwargs",
         ]
-        return {key: getattr(self, key) for key in state_keys} | self.kwargs
+        # Exclude api_key from kwargs to prevent API keys from being saved in plain text
+        filtered_kwargs = {k: v for k, v in self.kwargs.items() if k != "api_key"}
+        return {key: getattr(self, key) for key in state_keys} | filtered_kwargs
 
     def _check_truncation(self, results):
         if self.model_type != "responses" and any(c.finish_reason == "length" for c in results["choices"]):
@@ -470,6 +473,13 @@ def _convert_chat_request_to_responses_request(request: dict[str, Any]):
             elif isinstance(c, list):
                 content_blocks.extend(c)
         request["input"] = [{"role": msg.get("role", "user"), "content": content_blocks}]
+
+    # Convert `response_format` to `text.format` for Responses API
+    if "response_format" in request:
+        response_format = request.pop("response_format")
+        text = request.pop("text", {})
+        request["text"] = {**text, "format": response_format}
+
     return request
 
 def _get_headers(headers: dict[str, Any] | None = None):
