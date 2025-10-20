@@ -1,0 +1,111 @@
+{
+  "version": "1.0.0",
+  "buildDate": "2025-10-08T12:00:00Z",
+  "releaseChannel": "stable",
+  "mainRepoCommit": "d568392c27f62e547c33ae4632bd187b8a5788f2",
+
+  "components": {
+    "lawllama-api": {
+      "version": "1.0.0",
+      "buildHash": "d568392"
+    },
+    "lawllama-web": {
+      "version": "1.0.0",
+      "buildHash": "d568392"
+    },
+    "document-processor": {
+      "version": "1.0.0",
+      "buildHash": "d568392"
+    },
+    "file-acquisition-service": {
+      "version": "1.0.0",
+      "buildHash": "d568392"
+    }
+  },
+
+  "submodules": {
+    "langchain-lawllama": {
+      "path": "langchain-lawllama",
+      "commit": "cfeeaa013f0189c41ca9fa8eb666b5a9317de7e8",
+      "branch": "main",
+      "semanticVersion": "0.3.14-lawllama",
+      "upstreamVersion": "0.3.14",
+      "lastUpdated": "2025-10-01T00:00:00Z",
+      "gitUrl": "https://github.com/timaah/langchain-lawllama.git"
+    },
+    "langgraph-lawllama": {
+      "path": "langgraph-lawllama",
+      "commit": "f087567853829e0c3a3e608e2cd5501a97aaefac",
+      "branch": "main",
+      "semanticVersion": "0.6.7-lawllama",
+      "upstreamVersion": "0.6.7",
+      "lastUpdated": "2025-10-01T00:00:00Z",
+      "gitUrl": "https://github.com/timaah/langgraph-lawllama.git"
+    },
+    "ollama-lawllama": {
+      "path": "ollama",
+      "commit": "384343f294ee94627392faba160003fb535409de",
+      "branch": "main",
+      "semanticVersion": "0.12.4-lawllama",
+      "upstreamVersion": "0.12.4",
+      "lastUpdated": "2025-10-01T00:00:00Z",
+      "gitUrl": "https://github.com/timaah/ollama-lawllama.git"
+    },
+    "dspy-lawllama": {
+      "path": "dspy-lawllama",
+      "commit": "8499d1a1ae4461a0f1c202191596b821d99faf36",
+      "branch": "main",
+      "semanticVersion": "3.0.4-lawllama",
+      "upstreamVersion": "3.0.4",
+      "lastUpdated": "2025-10-03T16:38:59Z",
+      "gitUrl": "https://github.com/timaah/dspy-lawllama.git"
+    },
+    "rank1-lawllama": {
+      "path": "rank1-lawllama",
+      "commit": "639b9347e2d5a5c1dbf520ae5c957c01b760b320",
+      "branch": "main",
+      "semanticVersion": "1.0.0-lawllama",
+      "upstreamVersion": "1.0.0",
+      "lastUpdated": "2025-10-01T00:00:00Z",
+      "gitUrl": "https://github.com/timaah/rank1-lawllama.git"
+    },
+    "promptriever-lawllama": {
+      "path": "promptriever-lawllama",
+      "commit": "ebe6d1a428a55bdda66e75095ff74e8826558a7e",
+      "branch": "main",
+      "semanticVersion": "1.0.0-lawllama",
+      "upstreamVersion": "1.0.0",
+      "lastUpdated": "2025-10-01T00:00:00Z",
+      "gitUrl": "https://github.com/timaah/promptriever-lawllama.git"
+    }
+  },
+
+  "systemRequirements": {
+    "minMemoryGB": 16,
+    "minDiskGB": 100,
+    "minCPUCores": 4,
+    "supportedOS": [
+      "ubuntu-22.04",
+      "ubuntu-24.04",
+      "windows-server-2022",
+      "windows-11"
+    ],
+    "pythonVersion": "3.11+",
+    "nodeVersion": "20+",
+    "dockerVersion": "24+"
+  },
+
+  "dependencies": {
+    "postgresql": "15+",
+    "redis": "7+",
+    "ollama": "0.5+",
+    "qdrant": "1.11+",
+    "neo4j": "5.0+"
+  },
+
+  "notes": {
+    "buildEnvironment": "Development",
+    "gitRepository": "https://github.com/yourusername/LawLlama.git",
+    "documentation": "https://docs.lawllama.ca"
+  }
+}

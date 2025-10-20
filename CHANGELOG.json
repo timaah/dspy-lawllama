@@ -1,0 +1,126 @@
+{
+  "version": "1.0.0",
+  "releaseDate": "2025-10-08T12:00:00Z",
+  "releaseChannel": "stable",
+  "codename": "Foundation",
+
+  "summary": "Initial production release of LawLlama with complete enterprise feature set including RAG pipeline, orchestration system, MCP integration, and model management.",
+
+  "features": [
+    "Complete RAG pipeline with triple-storage (PostgreSQL + Qdrant + Neo4j)",
+    "LawLlamaBrain orchestration system with 6 subsystem adapters (Agent, Chat, Document, Tool, Workflow, DSPy)",
+    "5 MCP servers for legal tools providing 75 total specialized tools",
+    "Model-specific prompt configuration system with 3-tier fallback hierarchy",
+    "Capability-based AI model management (ModelManager integration)",
+    "Chat feedback system with comprehensive review page",
+    "Document discovery and ingestion pipeline (27,520+ documents)",
+    "Real-time WebSocket communication for live updates"
+  ],
+
+  "improvements": [
+    "Reduced MCP server initialization from 25s to 5s via parallel testing (Session 187)",
+    "Improved API uptime from 72% to 89% through resource limit fixes (Session 123)",
+    "Enhanced chat persistence and message display (Session 192)",
+    "Optimized document discovery with async scanning",
+    "Added graceful degradation for MCP server timeouts"
+  ],
+
+  "fixes": [
+    "Fixed feedback review page data display with 6 architectural fixes (Session 192)",
+    "Resolved WebSocket adapter naming conflicts (Session 193)",
+    "Fixed chat message disappearing bug (Session 192)",
+    "Corrected case ID migration issues (Session 193)",
+    "Fixed MCP timeout causing API hangs (Session 186)",
+    "Resolved metadata reserved name conflicts (Session 188)"
+  ],
+
+  "breaking": [],
+
+  "security": [
+    "All 106 security vulnerabilities resolved (Session 109)",
+    "JWT authentication with HttpOnly cookies on all endpoints",
+    "Local-only storage policy strictly enforced (NO cloud storage)",
+    "Enterprise-grade authentication and authorization",
+    "Data encryption for all sensitive information"
+  ],
+
+  "submoduleChanges": {
+    "langchain-lawllama": {
+      "changes": [
+        "Updated to upstream 0.3.14",
+        "Custom LawLlama tools and adapters",
+        "Ollama integration optimizations"
+      ],
+      "breaking": false
+    },
+    "langgraph-lawllama": {
+      "changes": [
+        "Updated to upstream 0.6.7",
+        "PostgreSQL checkpointing support",
+        "Human-in-the-loop workflow support"
+      ],
+      "breaking": false
+    },
+    "ollama-lawllama": {
+      "changes": [
+        "Updated to upstream 0.12.4",
+        "Custom model discovery optimizations",
+        "Performance improvements for legal models"
+      ],
+      "breaking": false
+    },
+    "dspy-lawllama": {
+      "changes": [
+        "Updated to upstream 3.0.4",
+        "Legal domain optimization modules",
+        "Custom metrics for legal tasks"
+      ],
+      "breaking": false
+    },
+    "rank1-lawllama": {
+      "changes": [
+        "Initial integration v1.0.0",
+        "Legal document retrieval optimizations"
+      ],
+      "breaking": false
+    },
+    "promptriever-lawllama": {
+      "changes": [
+        "Initial integration v1.0.0",
+        "Prompt optimization for legal queries"
+      ],
+      "breaking": false
+    }
+  },
+
+  "migrations": [
+    "050: Comprehensive model seeding",
+    "051: Default RAG configuration",
+    "052: Default storage locations",
+    "053: Model-specific prompt configurations",
+    "054: Seed default prompt templates",
+    "055: Document organization rules"
+  ],
+
+  "upgradeNotes": [
+    "⚠️ CRITICAL: Backup database before upgrade",
+    "Run migrations: ./venv/Scripts/alembic.exe upgrade head",
+    "Initialize git submodules: git submodule update --init --recursive",
+    "Restart all services after update: docker compose restart",
+    "Verify Ollama models are available: curl http://localhost:11434/api/tags",
+    "Check API health: curl http://localhost:8000/health",
+    "Verify frontend accessibility: http://localhost:3000"
+  ],
+
+  "knownIssues": [],
+
+  "contributors": [
+    "LawLlama Development Team"
+  ],
+
+  "links": {
+    "documentation": "https://docs.lawllama.ca",
+    "repository": "https://github.com/yourusername/LawLlama",
+    "issues": "https://github.com/yourusername/LawLlama/issues"
+  }
+}
